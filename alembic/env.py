@@ -4,11 +4,11 @@ from sqlalchemy import engine_from_config, pool
 from alembic import context
 
 # Импортируем модели из core.models
-from app.db.models import Item
+from app.models import Item
 # Если у вас есть другие модели, их также нужно импортировать здесь
 
 # Импортируем модуль базы данных
-from app.db.database import Base
+from app.database import Base
 
 # Используем Alembic для настройки логирования
 config = context.config
