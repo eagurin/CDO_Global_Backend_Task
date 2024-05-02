@@ -27,7 +27,8 @@ fastapi_crud/
 │   ├── main.py
 │   ├── models.py
 │   ├── schemas.py
-│   └── service.py
+│   ├── service.py
+│   └── utils.py
 ├── tests/
 │   ├── __init__.py
 │   ├── test_item.py
