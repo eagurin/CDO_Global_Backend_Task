@@ -1,9 +1,12 @@
 # app/service.py
 
 from typing import List, Optional
+
 from sqlalchemy.orm import Session
+
 from app.models import Item
 from app.schemas import CreateSchema, UpdateSchema
+
 
 class ItemService:
     @staticmethod
@@ -23,7 +26,9 @@ class ItemService:
         return db_item
 
     @staticmethod
-    def update_item(db: Session, item_id: int, item_data: UpdateSchema) -> Optional[Item]:
+    def update_item(
+        db: Session, item_id: int, item_data: UpdateSchema
+    ) -> Optional[Item]:
         db_item = ItemService.get_item_by_id(db, item_id)
         if not db_item:
             return None

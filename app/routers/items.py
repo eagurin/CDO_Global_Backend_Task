@@ -1,8 +1,5 @@
 # app/routers/items.py
 
-import csv
-from io import StringIO
-
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
@@ -11,6 +8,7 @@ from app.database import get_db
 from app.exceptions import ItemNotFoundException, NoItemsFoundException
 from app.schemas import CreateSchema, ItemSchema, UpdateSchema
 from app.service import ItemService
+from app.utils import generate_csv_data
 
 router = APIRouter()
 item_service = ItemService()
@@ -29,17 +27,7 @@ def read_all_items_as_csv(db: Session = Depends(get_db)):
     if not items:
         raise NoItemsFoundException()
 
-    csv_data = StringIO()
-    csv_writer = csv.DictWriter(
-        csv_data, fieldnames=["id", "name", "description"]
-    )
-    csv_writer.writeheader()
-    for item in items:
-        csv_writer.writerow(
-            {"id": item.id, "name": item.name, "description": item.description}
-        )
-
-    csv_data.seek(0)
+    csv_data = generate_csv_data(items)
     return StreamingResponse(
         iter([csv_data.getvalue()]),
         media_type="text/csv",
